@@ -1,0 +1,73 @@
+<?php
+$pole=[
+    "rambo1" => ["zaner"=>"akcne", "hl_postava"=>"silvester stallone","vydania"=>1982],
+    "transformers" => ["zaner"=>"scifi", "hl_postava"=>"Shia LaBeouf","vydania"=>2007],
+    "kurier" => ["zaner"=>"krimi", "hl_postava"=>"Jason Statham","vydania"=>2002],
+    "samo 1" => ["zaner"=>"akcne", "hl_postava"=>"Jason Statham","vydania"=>2002],
+    "film filmov" => ["zaner"=>"krimi", "hl_postava"=>"Jason Statham","vydania"=>2002],
+    "hary potter" => ["zaner"=>"krimi", "hl_postava"=>"Jason Statham","vydania"=>2002],
+];
+// print_r($pole);
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        td{
+            width: 25px;
+            height: 25px;
+            text-align: center;
+        }
+       
+        
+    </style>
+</head>
+<body>
+    <form action="#" method="post" class="formular">
+        <fieldset>
+            <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label" >nazov filmu</label>
+                <input name="nazov" type="text" class="form-control" id="formGroupExampleInput" ><br>
+                <label for="akcne">Akčné</label>
+                <input type="radio" name = "radio" id = "akcne" value ="akcne"><br>
+                <label for="drama">Dráma</label>
+                <input type="radio" name = "radio" id = "drama" value = "drama"><br>
+                <label for="komedia">Komédia</label>
+                <input type="radio" name = "radio" id = "komedia" value = "komedia">
+            </div>
+
+            <button type="submit" class="btn">hladat</button>
+        </fieldset>
+    </form>
+    <?php
+    $film_printnuty = FALSE;
+    $zaner_radio = $_POST["radio"];
+    if ($_SERVER["REQUEST_METHOD"] === "POST"){
+        foreach ($pole as $key => $value){
+            if ($key === $_POST["nazov"]){
+                if $value === $zaner_radio
+                echo $value["zaner"]."<br>";
+                echo $value["hl_postava"]."<br>";
+                echo $value["vydania"]."<br>";
+                $film_printnuty = TRUE;  
+            }
+           
+            
+            }
+            
+        
+        if ($film_printnuty == FALSE){
+            echo "film nie je v databaze";
+        }  
+        
+        echo "<br>".$zaner_radio;
+        
+    }
+    
+    ?>
+</body>
+</html>
