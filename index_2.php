@@ -2,10 +2,10 @@
 $pole=[
     "rambo1" => ["zaner"=>"akcne", "hl_postava"=>"silvester stallone","vydania"=>1982],
     "transformers" => ["zaner"=>"scifi", "hl_postava"=>"Shia LaBeouf","vydania"=>2007],
-    "kurier" => ["zaner"=>"krimi", "hl_postava"=>"Jason Statham","vydania"=>2002],
-    "samo 1" => ["zaner"=>"akcne", "hl_postava"=>"Jason Statham","vydania"=>2002],
-    "film filmov" => ["zaner"=>"krimi", "hl_postava"=>"Jason Statham","vydania"=>2002],
-    "hary potter" => ["zaner"=>"krimi", "hl_postava"=>"Jason Statham","vydania"=>2002],
+    "kurier" => ["zaner"=>"krimi", "hl_postava"=>"Jason Statham","vydania"=>2008],
+    "samo 1" => ["zaner"=>"akcne", "hl_postava"=>"Samuel Šutek","vydania"=>2008],
+    "film filmov" => ["zaner"=>"drama", "hl_postava"=>"Jason Statham","vydania"=>2004],
+    "hary potter" => ["zaner"=>"akcne", "hl_postava"=>"Tom Hanks","vydania"=>2000],
 ];
 // print_r($pole);
 
@@ -49,11 +49,12 @@ $pole=[
     if ($_SERVER["REQUEST_METHOD"] === "POST"){
         foreach ($pole as $key => $value){
             if ($key === $_POST["nazov"]){
-                if $value === $zaner_radio
-                echo $value["zaner"]."<br>";
-                echo $value["hl_postava"]."<br>";
-                echo $value["vydania"]."<br>";
-                $film_printnuty = TRUE;  
+                if ($value["zaner"] === $zaner_radio){
+                    echo $value["zaner"]."<br>";
+                    echo $value["hl_postava"]."<br>";
+                    echo $value["vydania"]."<br>";
+                    $film_printnuty = TRUE;  
+                }
             }
            
             
@@ -64,7 +65,6 @@ $pole=[
             echo "film nie je v databaze";
         }  
         
-        echo "<br>".$zaner_radio;
         
     }
     
