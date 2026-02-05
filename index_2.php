@@ -6,6 +6,7 @@ $pole=[
     "samo 1" => ["zaner"=>"akcne", "hl_postava"=>"Samuel Šutek","vydania"=>2008],
     "film filmov" => ["zaner"=>"drama", "hl_postava"=>"Jason Statham","vydania"=>2004],
     "hary potter" => ["zaner"=>"akcne", "hl_postava"=>"Tom Hanks","vydania"=>2000],
+    
 ];
 // print_r($pole);
 
@@ -47,6 +48,9 @@ $pole=[
                     echo $value["vydania"]."<br>";
                     $film_printnuty = TRUE;  
                 }
+            else{
+                echo "HINT: ".$key." nie je ".$zaner_radio."<br>";
+            }
             }
            
             
