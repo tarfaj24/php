@@ -16,15 +16,7 @@ $pole=[
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        td{
-            width: 25px;
-            height: 25px;
-            text-align: center;
-        }
-       
-        
-    </style>
+
 </head>
 <body>
     <form action="#" method="post" class="formular">
