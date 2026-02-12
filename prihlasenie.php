@@ -17,7 +17,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 </head>
 <body>
     <p></p>
-    <form method="post">
+    <form method="post" action=>
     
         <div>
             <label for="riadok">Meno</label>
