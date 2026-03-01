@@ -1,17 +1,12 @@
 <?php
 if($_SERVER["REQUEST_METHOD"] === "POST"){
     $nevyplnene_pole = False;
-    
-    
-    
 
-
-    
- 
-
-
- 
-
+    if (isset($_POST["register_button"])){
+        header("Location:registracia.php");
+        exit();
+    }
+   
     if (isset($_POST["meno"])){
         $meno = $_POST["meno"];
         $priezvisko = $_POST["priezvisko"];
@@ -28,12 +23,21 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
             }
         }
         if ($nevyplnene_pole === True){
-            echo "Vsetky polia musia byt vyplnene";
+            echo "Všetky polia musia byť vyplnené";
         }
         else{
-            echo "ahoj svet";
+            if (mb_strlen($heslo) < 5){
+                echo "Heslo musí mať aspoň 5 znakov";
+            }
+            else if ($heslo == strtolower($heslo)){
+                echo "Heslo musí obsahovať aspoň jedno veľké písmeno";
+            }
+            else{
+                echo "ahoj svet";
             header("Location:login.php");
             exit();
+            }
+            
            
         }
     }

@@ -37,6 +37,9 @@
   
    
   <button type="submit" name="login_button"class="btn btn-primary">Prihlásiť sa</button>
+  <p></p><br><br>
+  <p>Nemáte účet? </p>
+  <button type="submit" name="register_button"class="btn btn-primary">Registrovať sa</button>
    
     </form>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
