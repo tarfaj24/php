@@ -11,16 +11,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
                 
             }
         }
+        if (sizeof($objednavka_for_file)){
         file_put_contents("objednavky.txt",implode(" * ",$objednavka_for_file),FILE_APPEND);
         file_put_contents("objednavky.txt","\n",FILE_APPEND);
+        echo "Ďakujeme za objednávku.";
+        }
+        else{
+            echo "Objednávka je prázdna!!!";
+        }
         
-        print_r($objednavka_for_file);
+    
     }
     if (isset($_POST["vypis_obj"])){
-        $counter = 0
         $subor = file("objednavky.txt");
         foreach($subor as $value){
-            echo "objednavka".$counter.str_replace("*"," ", $value);
+            echo "objednavka: ".str_replace("*"," ", $value);
             echo "<br>";
         }
     }
