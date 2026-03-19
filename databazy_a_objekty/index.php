@@ -14,54 +14,107 @@ $sql = "SELECT * FROM knihy";
 
 $stmt = $db->query($sql);
 
+$kniznica = [];
 
-if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"]) && $POST["action"] === "delete"){
-    $sql = "DELETE FROM knihy WHERE id = :id"; #:id je fiktivne id neexistuje v skutocnosti
-
-    $stmt = $db->prepare($sql);
-
-    return $stmt->execute([
-        ":id" => $_POST["kniha_id"]
-    ]);
-    header("Location:index.php");
-    exit();
+$type_button = "hidden";
 
 
-}
 
-$pole = [];
+
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
     $kniha = null;
     $kniha = new Kniha($row["nazov"],$row["autor"],(int)$row["rok_vydania"],(int)$row["stav"]);
     if ($kniha){
-        $kniha->setId($row["id"]);
+        $kniha->set_Id($row["id"]);
         $kniznica[] = $kniha;
+        }
     }
+
+
+
+if($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])){
+
+    
+    if ($_POST["action"] === "delete"){
+        $sql = "DELETE FROM knihy WHERE id = :id"; #:id je fiktivne id neexistuje v skutocnosti
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->execute([
+            ":id" => $_POST["kniha_id"]
+        ]);
+        header("Location:index.php");
+        exit();
+
+    }
+    elseif($_POST["action"] === "create"){
+        $sql = "INSERT INTO knihy(nazov,autor,rok_vydania,stav) VALUES(:nazov,:autor,:rok_vydania,:stav)"; 
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            ":nazov"=> $_POST["nazov"],
+            ":autor"=> $_POST["autor"],
+            ":rok_vydania"=> (int)$_POST["rok_vydania"],
+            ":stav"=> (int)$_POST["stav"]
+
+        ]);
+        header("Location:index.php");
+        exit();
+    }
+    
+
+    elseif($_POST["action"]==="pozicat"){
+        $sql = "UPDATE knihy SET stav=:stav WHERE id=:id"; 
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            ":stav"=>(int)"0",
+            ":id"=> $_POST["kniha_id"]
+        ]);
+        header("Location:index.php");
+        exit();
+    }
+    elseif($_POST["action"]==="vratit"){
+        $sql = "UPDATE knihy SET stav=:stav WHERE id=:id"; 
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            ":stav"=> (int)"1",
+            ":id"=> $_POST["kniha_id"]
+        ]);
+        header("Location:index.php");
+        exit();
+    }
+    elseif($_POST["action"]==="update"){
+        $sql = "UPDATE knihy SET nazov=:nazov,autor=:autor,rok_vydania=:rok_vydania WHERE id=:id";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            ":nazov" => $_POST["nazov"],
+            ":autor" => $_POST["autor"],
+            ":rok_vydania" => (int)$_POST["rok_vydania"],
+            ":id" =>(int)$_POST["kniha_id"]
+        ]);
+        header("Location:index.php");
+        exit();
+        
+    }
+ 
+
 }
 
-var_dump($kniznica);
+
+
+
+
 
 
 echo "<br>";
 
 
-var_dump($db);
-
-
-$kniznica = [];
-
-$svet = new Kniha("Svet","Janko Hruška",1897,1);
-$kniznica[] = $svet;
-
-$auto = new Kniha("Auto","Stano Mak",2000,1);
-$kniznica[] = $auto;
 
 
 
-// echo $svet->getNazov()."<br>";
-// echo $svet->get_Autor()."<br>";
-// echo $svet->get_Rok_vydania()."<br>";
-// echo $svet->get_Stav()."<br>";
+
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -70,10 +123,31 @@ $kniznica[] = $auto;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabulka</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        td{
+            padding:20px;
+        }
+        th{
+            padding:20px;
+        }
+    </style>
 </head>
 <body>
     <h1>Kniznica</h1>
     <br>
+    <form action="index.php" method="POST">
+        <label for="nazov">Nazov</label>
+        <input type="text" name="nazov"> 
+        <label for="autor">Autor</label>
+        <input type="text" name="autor"> 
+        <label for="rok_vydania">Rok_vydania</label>
+        <input type="number" name=rok_vydania> 
+        <input type="hidden" name="action" value="create">
+        <button type="submit" class="btn btn-primary" name ="create_button">Create</button>
+    </form>
+    
+
     <table border="1">
         <tr>
             <th>Nazov</th>
@@ -88,7 +162,7 @@ $kniznica[] = $auto;
             <?php foreach($kniznica as $kniha):?> 
                 <tr>
                     <td>
-                        <?= $kniha->getNazov() ?>
+                        <?= $kniha->get_Nazov() ?>
                     </td>
                     <td>
                         <?= $kniha->get_Autor() ?>
@@ -99,6 +173,40 @@ $kniznica[] = $auto;
                     <td>
                         <?= $kniha->get_Stav() ?>
                     </td>
+
+                    <td>
+                        <form action="index.php" method="POST">
+                            <input type="hidden" name="kniha_id" value="<?= $kniha->get_Id()?>">
+                            <input type="hidden" name="action" value="delete">
+                            <button type="submit" class= "btn btn-danger" name ="delete_button">Delete</button> 
+
+                       </form>
+                    </td>
+                    <td>
+                      <form action="update.php" method="POST">
+                            
+                            <button type="submit" class= "btn btn-primary" name ="kniha_id" value="<?= $kniha->get_Id()?>">Update</button> 
+
+                       </form>                    
+                    </td>
+                    <td>
+                        <form action="index.php" method="POST">
+                            <?php
+                            if ($kniha->get_Stav()){
+                    
+                                echo "<input type='hidden' name='kniha_id' value=".$kniha->get_Id()." >";            
+                                echo "<input type='hidden' name='action' value='pozicat'>";
+                                echo "<button type'hidden' name='stav' class='btn btn-primary'>Požičať</button>";
+                            }
+                            else{
+                            
+                                echo "<input type='hidden' name='kniha_id' value=".$kniha->get_Id()." >";
+                                echo "<input type='hidden' name='action' value='vratit'>";
+                                echo "<button type'hidden' name='stav' class='btn btn-primary'>Vrátiť</button>";
+                            }
+                            ?>
+                        </form>
+                    </td>
                 </tr>
                  
             <?php endforeach;?>
@@ -106,6 +214,7 @@ $kniznica[] = $auto;
         
         
     </table>
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  </body>
 </body>
 </html>

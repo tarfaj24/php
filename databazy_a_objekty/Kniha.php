@@ -12,25 +12,25 @@ class Kniha{
         $this->rok_vydania = $rok_vydania;
         $this->stav = $stav;
     }
-    public function getNazov(){
+    public function get_Nazov(){
         return $this->nazov;
     }
-    public function setId($id){
+    public function set_Id($id){
         $this->id = $id;
     }
 
-    public function getId(){
+    public function get_Id(){
         return $this->id;
     }
-    public function getAutor(){
+    public function get_Autor(){
         return $this->autor;
     }
 
-    public function getRok_vydania(){
+    public function get_Rok_vydania(){
         return $this->rok_vydania;
     }
 
-    public function getStav(){
+    public function get_Stav(){
         return $this->stav;
     }
 
