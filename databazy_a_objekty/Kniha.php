@@ -22,7 +22,7 @@ class Kniha{
     public function getId(){
         return $this->id;
     }
-    public function getAutor(){
+    public function get_Autor(){
         return $this->autor;
     }
 
