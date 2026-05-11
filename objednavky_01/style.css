@@ -1,0 +1,23 @@
+body{
+    padding: 100px;
+}
+
+form{
+    width: 1000px;
+}
+
+img{
+    width: 200px;
+    height: auto;
+}
+.telefony{
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
+.tablety{
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
