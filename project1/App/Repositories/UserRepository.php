@@ -110,11 +110,35 @@ class UserRepository
             echo $e->getMessage();
             return false;
         }
-        
-
-        
-
     }
+    public function find_all():?array
+    {    
+        $users = [];
+        try
+        {
+            $sql = "SELECT * FROM users";
+            $stmt = $this->db->query($sql);
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+            {
+
+                $user = new User($row["username"], $row["password"],$row["role"],false);
+                $user->setId($row["id"]);
+                $user->setCreatedAt($row["created_at"]);
+                $users[] = $user;
+            }
+            return $users;
+        }
+        catch(PDOException $e)
+        {
+            echo $e->getMessage();
+            return NULL;
+        }
+    }
+        
+
+        
 
 }
+
+
 ?>

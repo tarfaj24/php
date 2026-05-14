@@ -20,17 +20,12 @@ $db = new Database;
 $pdo = $db->spojenie();
 $userRepo = new UserRepository($pdo);
 
-$user = new User("Fero","Fero", "admin", false);
+// $user = new User("Fero","Ferko", "admin", false);
 
-$userRepo->save($user);
+// $userRepo->save($user);
 
-if($user = $userRepo->findByUsername("Fero"))
-    {
-        // $user->setUsername("Stano");
-        // $userRepo->update($user);
-        $userRepo->delete($user);
-       
+$users_arr = $userRepo->find_all();
+include "..\View\Home.php";
         
-    }
-
+  
 ?>
