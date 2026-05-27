@@ -23,7 +23,7 @@ class UserRepository
 
         try 
         {
-            $user = null;
+            $user = NULL;
             $sql = "SELECT * FROM users WHERE username = :username LIMIT 1";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([":username" => $username]); // => priradi kluc k hodnote
@@ -35,15 +35,37 @@ class UserRepository
                 $user->setCreatedAt($row["created_at"]);
                 return $user;
             }
-            return null;
+            return NULL;
         }
         catch(PDOException $e)
         {
-            return null;
+            return NULL;
         }
 
     }
 
+    public function findById(int $id):?User
+    {
+        try 
+        {
+            $user = NULL;
+            $sql = "SELECT * FROM users WHERE id = :id";
+            $stmt = $this->$db->prepare($sql);
+            $stmt->execute([":id" => $id]);
+            if($row = $stmt->fetch())
+            {
+                $user = new User($row["username"], $row["PASSWORD"], $row["role"], true);
+                $user->setId((int)$row["id"]);
+                $user->setCreatedAt($row["created_at"]);
+                return $user;
+            }
+            return NULL;
+        }
+        catch(PDOException  $e)
+        {
+            return NULL;
+        }
+    }
     // sluzi na ulozenie usera do databazy 
     // ps neviem preco tam neuklada aj created at
     public function save(User $user):bool
@@ -135,6 +157,8 @@ class UserRepository
             return NULL;
         }
     }
+
+    
         
 
         

@@ -119,8 +119,13 @@
                                 <input type="hidden" name = "username_info" value = <?=$user->getUsername()?>>
                                 <button  type="submit" class="btn btn-primary" name = "action" value = "info">Info</button>
                                 <button type="submit" class="btn btn-danger" name = "action" value = "delete">Delete</button>
-                                <button type="submit" class="btn btn-warning" name = "action" value = "update">Update</button> 
                             </form>
+                            <form action="..\View\Update.php" method = "POST">
+                                <input type="hidden" name = "id_info" value = <?=$user->getId()?>>
+                                <button type="submit" class="btn btn-warning" name = "action" value = "update">Update</button> 
+                                
+                            </form>
+                            
                             
                         </td>
                     </tr>
