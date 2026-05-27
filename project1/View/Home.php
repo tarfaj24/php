@@ -1,21 +1,70 @@
 <?php 
+    use App\Models\User;
+
     if($_SERVER["REQUEST_METHOD"] === "POST")
     {
-        // $user_obj = $userRepo->findByUsername($_POST["username_info"]);
-        var_dump($_POST);
-        // if ($_POST["info"])
-        // {
-        //     echo $userRepo->getId($user)."<br>";
-        //     echo $userRepo->getUsername($user)."<br>";
-        //     echo $userRepo->getRole($user)."<br>";
-        //     echo $userRepo->getCreatedAt($user)."<br>";
-            
-        // }
+        
+    
 
-        if ($_POST["delete"])
+        if (isset($_POST["action"]))
         {
-            $userRepo->delete($user_obj);
+
+            if ($_POST["action"] == "save")
+            {
+            $user_obj = new User($_POST["username"], $_POST["password"], "admin", false);
+            $userRepo->save($user_obj);
+            header("Location:index.php");
+         
+            }
+
+            else if($_POST["action"] == "delete")
+            {
+                $user_obj = $users_arr[$_POST["username_info"]];
+                $userRepo->delete($user_obj);
+                header("Location:index.php");
+            }
+
+            else if($_POST["action"] == "update")
+            {
+                $user_obj = $users_arr[$_POST["username_info"]];
+                $userRepo->update($user_obj);
+                header("Location:Update.php");
+            }
+
+            else if($_POST["action"] == "info")
+            {
+                $user_obj = $users_arr[$_POST["username_info"]];
+                echo $user_obj->getId()."<br>";
+                echo $user_obj->getUsername()."<br>";
+                echo $user_obj->getRole()."<br>";
+                echo $user_obj->getCreatedAt()."<br>";
+    
+              
+               
+                // public function getUsername():string
+                // {
+                //     return $this->username;
+                // }
+            
+                // public function getPassword():string
+                // {
+                //     return $this->password;
+                // }
+            
+                // public function getRole():string
+                // {
+                //     return $this->role;
+                // }
+            
+                // public function getCreatedAt():string
+                // {
+                //     return $this->created_at;
+                // }
+            
+                
+            }
         }
+    
     }
 ?>
 <!DOCTYPE html>
@@ -39,10 +88,10 @@
                 </div>
                 <div class="col">
                     <div class="mb-3">
-                        <input type="text" class="form-control" id="role" name = "role" placeholder="Role" required>
+                        <input type="text" class="form-control" id="password" name = "password" placeholder="password" required>
                     </div>
                 </div>
-                <div class = "col">  <button type="submit" class="btn btn-primary">Save</button> </div>
+                <div class = "col">  <button type="submit" class="btn btn-primary" name = "action" value = "save">Save</button> </div>
             </div>
         </form>
         </div>
@@ -70,7 +119,7 @@
                                 <input type="hidden" name = "username_info" value = <?=$user->getUsername()?>>
                                 <button  type="submit" class="btn btn-primary" name = "action" value = "info">Info</button>
                                 <button type="submit" class="btn btn-danger" name = "action" value = "delete">Delete</button>
-                                <button type="submit" class="btn btn-primary" name = "action" value = "update">Update</button> 
+                                <button type="submit" class="btn btn-warning" name = "action" value = "update">Update</button> 
                             </form>
                             
                         </td>

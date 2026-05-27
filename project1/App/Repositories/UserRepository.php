@@ -20,6 +20,7 @@ class UserRepository
     // vrati bud jeho objekt alebo null
     public function findByUsername(string $username):?User
     {
+
         try 
         {
             $user = null;
@@ -124,7 +125,7 @@ class UserRepository
                 $user = new User($row["username"], $row["password"],$row["role"],false);
                 $user->setId($row["id"]);
                 $user->setCreatedAt($row["created_at"]);
-                $users[] = $user;
+                $users[$row["username"]] = $user;
             }
             return $users;
         }

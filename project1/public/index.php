@@ -20,7 +20,7 @@ $db = new Database;
 $pdo = $db->spojenie();
 $userRepo = new UserRepository($pdo);
 
-// $user = new User("Fero","Ferko", "admin", false);
+$user = new User("Marek","Ferko", "admin", false);
 
 // $userRepo->save($user);
 
