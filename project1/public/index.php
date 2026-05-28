@@ -13,19 +13,23 @@ require_once __DIR__ .'/../vendor/autoload.php';
 // v tomto pripade sluzi use na vytvorenie skratiek k triedam
 // s use staci ked pouzijeme new Database a nie new app/core/database
 use App\Core\Database;
-use App\Repositories\UserRepository;
 use App\Models\User;
+use App\Repositories\UserRepository;
+use App\Controllers\UserController;
+use App\Core\Router;
+
 
 $db = new Database;
 $pdo = $db->spojenie();
 $userRepo = new UserRepository($pdo);
 
-$user = new User("Marek","Ferko", "admin", false);
+$userController = new UserController($userRepo);
 
-// $userRepo->save($user);
+$router = new Router;
+$router->add("/", $userController, "index");
+$router->add("/login", $userController, "login");
+$router->add("/register", $userController, "register");
 
-$users_arr = $userRepo->find_all();
-include "..\View\Home.php";
-        
-  
+$router->resolve();
+
 ?>
