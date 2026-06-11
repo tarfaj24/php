@@ -3,12 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel = "stylesheet" href = "/project1/public/css/style.css">
+    <title><title>view|register</title></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel = "stylesheet" href = "..//public/css/style.css">
+   
 </head>
 <body>
-    <form>
+<?php if(isset($_SESSION["flash_error"])):?>
+    <div class="alert alert-danger" role="alert">
+        <?php
+        echo $_SESSION["flash_error"];
+        unset($_SESSION["flash_error"]);
+        ?>
+    </div>
+<?php endif;?>
+
+    <form action = "/project1/public/login" method = "POST">
         <h2 class = "text-center fw-bold fs-2">Login</h2>
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>
@@ -19,7 +29,7 @@
             <input type="password" class="form-control" id="password" placeholder="password">
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
-        <p>Nemáte účet? <a href="">Registration</a></p>
+        <p>Nemáte účet? <a href="register">Registration</a></p>
     </form>
    
 </body>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 // require_once sluzi na nacitanie suboru ak neexistuje zastav programu
 // ak uz bol nacitany viac ho nenacitavaj
@@ -29,6 +30,8 @@ $router = new Router;
 $router->add("/", $userController, "index");
 $router->add("/login", $userController, "login");
 $router->add("/register", $userController, "register");
+$router->add("/dashboard", $userController, "dashboard");
+$router->add("/logout", $userController, "logout");
 
 $router->resolve();
 
