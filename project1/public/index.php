@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 // require_once sluzi na nacitanie suboru ak neexistuje zastav programu
 // ak uz bol nacitany viac ho nenacitavaj
@@ -13,24 +14,25 @@ require_once __DIR__ .'/../vendor/autoload.php';
 // v tomto pripade sluzi use na vytvorenie skratiek k triedam
 // s use staci ked pouzijeme new Database a nie new app/core/database
 use App\Core\Database;
-use App\Repositories\UserRepository;
 use App\Models\User;
+use App\Repositories\UserRepository;
+use App\Controllers\UserController;
+use App\Core\Router;
+
 
 $db = new Database;
 $pdo = $db->spojenie();
 $userRepo = new UserRepository($pdo);
 
-$user = new User("Fero","Fero", "admin", false);
+$userController = new UserController($userRepo);
 
-$userRepo->save($user);
+$router = new Router;
+$router->add("/", $userController, "index");
+$router->add("/login", $userController, "login");
+$router->add("/register", $userController, "register");
+$router->add("/dashboard", $userController, "dashboard");
+$router->add("/logout", $userController, "logout");
 
-if($user = $userRepo->findByUsername("Fero"))
-    {
-        // $user->setUsername("Stano");
-        // $userRepo->update($user);
-        $userRepo->delete($user);
-       
-        
-    }
+$router->resolve();
 
 ?>
